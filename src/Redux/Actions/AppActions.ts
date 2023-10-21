@@ -1,5 +1,5 @@
 
-import { currentUserType, shopsType } from "../../Config/types";
+import { currentUserType, productsType, shopsType } from "../../Config/types";
 import { createShopTypes } from "../../Pages/CreaetShop";
 import { signUpFormDataType } from "../../Pages/Signup";
 import { RootState } from "../store";
@@ -15,6 +15,9 @@ export const initApp = () => (dispatch: Idispatch) => {
     const shops = localStorage.getItem('Shops');
     const parsedShops: shopsType[] = JSON.parse(shops as string);
 
+    const products = localStorage.getItem('Products');
+    const parsedProducts = JSON.parse(products as string);
+
     if (JSON.parse(oldUsers as string)) {
       console.log('oldUsers', oldUsers)
       dispatch({ type: 'signupUser', payload: JSON.parse(oldUsers as string) })
@@ -28,6 +31,10 @@ export const initApp = () => (dispatch: Idispatch) => {
 
     if (parsedShops) {
       dispatch({ type: 'createShop', payload: parsedShops })
+    }
+
+    if (parsedProducts) {
+      dispatch({ type: 'addProducts', payload: parsedProducts })
     }
   } catch (error) {
     console.log('Init App Error', error)
@@ -82,6 +89,34 @@ export const createShop = (shopDetails: createShopTypes) => (dispatch: Idispatch
     }
 
   } catch (error) {
-    console.log('Signup Error', error)
+    console.log('Create Shop Error', error)
+  }
+}
+
+export const addProduct = (productDetails: productsType) => (dispatch: Idispatch, getData: () => RootState) => {
+  try {
+    if (productDetails) {
+
+      const oldProducts = getData().app.products;
+
+      if (Object.keys(oldProducts).length) {
+        oldProducts[productDetails.ShopId as number] =
+          oldProducts[productDetails.ShopId as number] ?
+            [...oldProducts[productDetails.ShopId as number], { ...productDetails, ProductId: oldProducts[productDetails.ShopId as number].length + 1 }]
+            : [{ ...productDetails, ProductId: 1 }];
+        localStorage.setItem('Products', JSON.stringify(oldProducts));
+        dispatch({ type: 'addProducts', payload: oldProducts })
+      } else {
+        const productsList = {};
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        productsList[productDetails.ShopId] = [{ ...productDetails, ProductId: 1 }]
+        localStorage.setItem('Products', JSON.stringify(productsList))
+        dispatch({ type: 'addProducts', payload: productsList })
+      }
+    }
+
+  } catch (error) {
+    console.log('Add Product Error', error)
   }
 }

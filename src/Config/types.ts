@@ -18,9 +18,10 @@ export interface shopsType {
 
 export interface productsType {
   ProductId?: number;
+  ShopId?: number;
   Name: string;
   Description: string;
   Price: number;
   Tags: string;
-  Quantity: string;
+  Quantity: number;
 }

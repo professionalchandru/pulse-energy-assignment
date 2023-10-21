@@ -10,8 +10,7 @@ const AppState: IappState = {
     rememberMe: false
   },
   shops: [],
-  // products: [],
-
+  products: {},
 }
 
 export const AppReducer = (state = AppState, action: AppActions) => {
@@ -22,6 +21,8 @@ export const AppReducer = (state = AppState, action: AppActions) => {
       return { ...state, currentUser: action.payload }
     case 'createShop':
       return { ...state, shops: action.payload }
+    case 'addProducts':
+      return { ...state, products: action.payload }
     case 'logout':
       return {
         ...state,

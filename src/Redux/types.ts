@@ -13,6 +13,7 @@ export interface IappState {
   currentUser: currentUserType;
   shops: shopsType[];
   // products: productsType[];
+  products: any;
 }
 
 export type ApplicationAction = AppActions;
@@ -38,6 +39,11 @@ export interface createShop {
   payload: createShopTypes[]
 }
 
+export interface addProducts {
+  type: 'addProducts';
+  payload: any
+}
+
 export interface logout {
   type: 'logout';
 }
@@ -48,4 +54,5 @@ export type AppActions =
   | signUpUser
   | signinUser
   | createShop
+  | addProducts
   | logout
