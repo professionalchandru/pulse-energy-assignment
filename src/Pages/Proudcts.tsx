@@ -74,6 +74,17 @@ const Products = (props: IProductsProps) => {
     setCurrentProductId("");
   };
 
+  const handleEditProduct = (productId: string) => {
+    navigate(`/shops/${id}/create-products?isEdit=true`, {
+      state: {
+        shopId: Number(id),
+        productDetails: allProducts[Number(id)].find(
+          (item: productsType) => item.ProductId === productId
+        ),
+      },
+    });
+  };
+
   return (
     <>
       <div className="relative h-screen bg-antiquwhite">
@@ -243,7 +254,9 @@ const Products = (props: IProductsProps) => {
                                 <Tooltip content="Edit">
                                   <IconButton
                                     variant="text"
-                                    onClick={() => navigate("/create-products")}
+                                    onClick={() =>
+                                      handleEditProduct(ProductId as string)
+                                    }
                                   >
                                     <PencilIcon className="h-4 w-4" />
                                   </IconButton>
@@ -252,7 +265,6 @@ const Products = (props: IProductsProps) => {
                                   <IconButton
                                     variant="text"
                                     onClick={() =>
-                                      // handleDeleteProduct(ProductId as string)
                                       handleOpen(ProductId as string)
                                     }
                                   >

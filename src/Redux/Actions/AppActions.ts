@@ -124,6 +124,28 @@ export const addProduct = (productDetails: productsType) => (dispatch: Idispatch
   }
 }
 
+export const editProduct = (productDetails: productsType) => (dispatch: Idispatch, getData: () => RootState) => {
+  try {
+    if (productDetails) {
+
+      const oldProducts = getData().app.products;
+
+      if (Object.keys(oldProducts).length) {
+
+        const productIndex = oldProducts[productDetails.ShopId as number]
+          .findIndex((product: productsType) => product.ProductId === productDetails.ProductId)
+
+        oldProducts[productDetails.ShopId as number][productIndex] = productDetails
+        localStorage.setItem('Products', JSON.stringify(oldProducts));
+        dispatch({ type: 'addProducts', payload: oldProducts })
+      }
+    }
+
+  } catch (error) {
+    console.log('Edit Product Error', error)
+  }
+}
+
 export const deleteProduct = (shopId: number, productId: string) => (dispatch: Idispatch, getData: () => RootState) => {
   try {
     if (shopId && productId) {

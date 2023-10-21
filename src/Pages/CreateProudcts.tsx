@@ -11,16 +11,22 @@ import {
   Select,
   Option,
 } from "@material-tailwind/react";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import BackDesktop from "../Components/BackDesktop";
 import { productsType } from "../Config/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { connect } from "react-redux";
-import { addProduct } from "../Redux/Actions/AppActions";
+import { addProduct, editProduct } from "../Redux/Actions/AppActions";
 
 interface IcreateProductsProps {
   addProduct: (productsDeatils: productsType) => void;
+  editProduct: (productsDeatils: productsType) => void;
 }
 
 export interface productsErrorType {
@@ -33,9 +39,10 @@ export interface productsErrorType {
 }
 
 const CreateProdcuts = (props: IcreateProductsProps) => {
-  const { addProduct } = props;
+  const { addProduct, editProduct } = props;
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { id } = useParams();
 
   const [formData, setFormData] = useState<productsType>({
@@ -53,6 +60,16 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
     Tags: "",
     Quantity: "",
   });
+
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (Object.fromEntries(searchParams).isEdit) {
+      const states: any = location.state;
+      setFormData(states.productDetails);
+      setIsEditMode(true);
+    }
+  }, [location, searchParams]);
 
   const validateForm = () => {
     const errors = {
@@ -75,11 +92,7 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
       errors.Price = "Enter Valid Price";
     }
 
-    if (
-      !formData.Quantity ||
-      isNaN(formData.Quantity) ||
-      formData.Quantity < 0
-    ) {
+    if (isNaN(formData.Quantity) || formData.Quantity < 0) {
       errors.Quantity = "Enter Valid Quantity";
     }
 
@@ -94,7 +107,13 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
     setErrors(newErr);
 
     if (Object.values(newErr).every((err) => err === "")) {
-      addProduct({ ...formData, ShopId: Number(id) });
+      if (!isEditMode) {
+        addProduct({ ...formData, ShopId: Number(id) });
+        toast.success("Product Created Successfully");
+      } else {
+        editProduct({ ...formData, ShopId: Number(id) });
+        toast.success("Product Updated Successfully");
+      }
       setFormData({
         Name: "",
         Description: "",
@@ -102,7 +121,6 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
         Tags: "",
         Quantity: 0,
       });
-      toast.success("Shop Created Successfully");
       navigate(`/shops/${id}/products`);
     } else {
       let message = "";
@@ -149,7 +167,7 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
           className="mb-4 grid h-28 place-items-center"
         >
           <Typography variant="h3" color="white">
-            Create Product
+            {isEditMode ? "Edit Product" : "Create Product"}
           </Typography>
         </CardHeader>
         <CardBody className="flex flex-col gap-4">
@@ -206,7 +224,7 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
         </CardBody>
         <CardFooter className="pt-0">
           <Button variant="gradient" fullWidth onClick={handleAddProdcut}>
-            Create Product
+            {isEditMode ? "Update Product" : "Create Product"}
           </Button>
           <Typography variant="small" className="mt-6 flex justify-center">
             Go Back To Shop?
@@ -230,6 +248,7 @@ const mapStateToProps = () => {
 };
 const mapDispatchToProps = {
   addProduct: (productDetails: productsType) => addProduct(productDetails),
+  editProduct: (productDetails: productsType) => editProduct(productDetails),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProdcuts);
