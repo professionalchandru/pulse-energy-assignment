@@ -17,7 +17,7 @@ export interface shopsType {
 }
 
 export interface productsType {
-  ProductId?: number;
+  ProductId?: string;
   ShopId?: number;
   Name: string;
   Description: string;

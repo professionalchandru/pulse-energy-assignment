@@ -1,9 +1,12 @@
 
+import toast from "react-hot-toast";
 import { currentUserType, productsType, shopsType } from "../../Config/types";
 import { createShopTypes } from "../../Pages/CreaetShop";
 import { signUpFormDataType } from "../../Pages/Signup";
+import { generateRandomId } from "../../utils/randomIdGen";
 import { RootState } from "../store";
 import { Idispatch } from "../types";
+
 
 export const initApp = () => (dispatch: Idispatch) => {
   try {
@@ -102,15 +105,15 @@ export const addProduct = (productDetails: productsType) => (dispatch: Idispatch
       if (Object.keys(oldProducts).length) {
         oldProducts[productDetails.ShopId as number] =
           oldProducts[productDetails.ShopId as number] ?
-            [...oldProducts[productDetails.ShopId as number], { ...productDetails, ProductId: oldProducts[productDetails.ShopId as number].length + 1 }]
-            : [{ ...productDetails, ProductId: 1 }];
+            [...oldProducts[productDetails.ShopId as number], { ...productDetails, ProductId: generateRandomId() }]
+            : [{ ...productDetails, ProductId: generateRandomId() }];
         localStorage.setItem('Products', JSON.stringify(oldProducts));
         dispatch({ type: 'addProducts', payload: oldProducts })
       } else {
         const productsList = {};
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        productsList[productDetails.ShopId] = [{ ...productDetails, ProductId: 1 }]
+        productsList[productDetails.ShopId] = [{ ...productDetails, ProductId: generateRandomId() }]
         localStorage.setItem('Products', JSON.stringify(productsList))
         dispatch({ type: 'addProducts', payload: productsList })
       }
@@ -118,5 +121,21 @@ export const addProduct = (productDetails: productsType) => (dispatch: Idispatch
 
   } catch (error) {
     console.log('Add Product Error', error)
+  }
+}
+
+export const deleteProduct = (shopId: number, productId: string) => (dispatch: Idispatch, getData: () => RootState) => {
+  try {
+    if (shopId && productId) {
+      const oldProducts = getData().app.products;
+      const removeProduct = oldProducts[shopId].filter((item: productsType) => item.ProductId !== productId);
+      oldProducts[shopId] = removeProduct
+      localStorage.setItem('Products', JSON.stringify(oldProducts))
+      dispatch({ type: 'addProducts', payload: oldProducts })
+      toast.success('Product Deleted Successfully...');
+    }
+
+  } catch (error) {
+    console.log('Delete Product Error', error)
   }
 }

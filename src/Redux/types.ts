@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { currentUserType, shopsType } from "../Config/types";
+import { currentUserType, productsType, shopsType } from "../Config/types";
 import { createShopTypes } from "../Pages/CreaetShop";
 import { signUpFormDataType } from "../Pages/Signup";
 import { ThunkDispatch } from 'redux-thunk'
@@ -8,12 +8,16 @@ export interface ApplicationState {
   App: IappState
 }
 
+export interface productsStateType {
+  [key: string]: productsType
+}
+
 export interface IappState {
   users: signUpFormDataType[];
   currentUser: currentUserType;
   shops: shopsType[];
   // products: productsType[];
-  products: any;
+  products: productsStateType
 }
 
 export type ApplicationAction = AppActions;

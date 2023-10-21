@@ -13,12 +13,16 @@ import {
   Tooltip,
   Input,
   CardFooter,
+  Chip,
 } from "@material-tailwind/react";
 import BackDesktop from "../Components/BackDesktop";
 import BackMobile from "../Components/BackMobile";
 import { connect } from "react-redux";
 import { RootState } from "../Redux/store";
 import { productsType, shopsType } from "../Config/types";
+import { deleteProduct } from "../Redux/Actions/AppActions";
+import { useEffect, useState } from "react";
+import DialougeBox from "../Components/DialougeBox";
 
 const TABLE_HEAD = [
   "Name",
@@ -32,15 +36,43 @@ const TABLE_HEAD = [
 interface IProductsProps {
   allProducts: any;
   shops: shopsType[];
+  deleteProduct: (shopId: number, productId: string) => void;
 }
 
 const Products = (props: IProductsProps) => {
-  const { allProducts, shops } = props;
+  const { allProducts, shops, deleteProduct } = props;
   const { id } = useParams();
   const shopDetails = shops.find((shop) => shop.ShopId === Number(id));
   const navigate = useNavigate();
+  const [products, setProducts] = useState<productsType[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [currentProductId, setCurrentProductId] = useState<string>("");
 
-  const prodcuts: productsType[] = allProducts[Number(id)];
+  useEffect(() => {
+    setProducts(allProducts[Number(id)]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allProducts[Number(id)]]);
+
+  const handleDeleteProduct = (productId: string) => {
+    deleteProduct(Number(id), productId);
+    setIsOpen(false);
+    setCurrentProductId("");
+    navigate(`/shops/${id}/products`);
+  };
+
+  const handleOpen = (productId: string) => {
+    setIsOpen(true);
+    setCurrentProductId(productId);
+  };
+
+  const handleConfirm = () => {
+    handleDeleteProduct(currentProductId);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setCurrentProductId("");
+  };
 
   return (
     <>
@@ -116,141 +148,177 @@ const Products = (props: IProductsProps) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {prodcuts.map(
-                      (
-                        { ProductId, Name, Description, Price, Tags, Quantity },
-                        index
-                      ) => {
-                        const isLast = index === prodcuts.length - 1;
-                        const classes = isLast
-                          ? "p-4"
-                          : "p-4 border-b border-blue-gray-50";
+                    {products ? (
+                      products?.map(
+                        (
+                          {
+                            ProductId,
+                            Name,
+                            Description,
+                            Price,
+                            Tags,
+                            Quantity,
+                          },
+                          index
+                        ) => {
+                          const isLast = index === products.length - 1;
+                          const classes = isLast
+                            ? "p-4"
+                            : "p-4 border-b border-blue-gray-50";
 
-                        return (
-                          <tr key={ProductId}>
-                            <td className={classes}>
-                              <div className="flex items-center gap-3">
-                                <Typography
-                                  variant="small"
-                                  color="blue-gray"
-                                  className="font-bold w-20 md:w-24 lg:w-36 xl:w-48 truncate"
-                                >
-                                  {Name}
-                                </Typography>
-                              </div>
-                            </td>
-                            <td className={classes}>
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal w-20 md:w-24 lg:w-36 xl:w-48 truncate"
-                              >
-                                {Description}
-                              </Typography>
-                            </td>
-                            <td className={classes}>
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal w-20 md:w-24 lg:w-36 xl:w-48 truncate"
-                              >
-                                {Price}
-                              </Typography>
-                            </td>
-                            {/* <td className={classes}>
-                            <div className="w-max">
-                              <Chip
-                                size="sm"
-                                variant="ghost"
-                                value={status}
-                                color={
-                                  status === "paid"
-                                    ? "green"
-                                    : status === "pending"
-                                    ? "amber"
-                                    : "red"
-                                }
-                              />
-                            </div>
-                          </td> */}
-                            <td className={classes}>
-                              <div className="flex items-center gap-3">
+                          return (
+                            <tr key={ProductId}>
+                              <td className={classes}>
+                                <div className="flex items-center gap-3">
+                                  <Typography
+                                    variant="small"
+                                    color="blue-gray"
+                                    className="font-bold w-20 md:w-24 lg:w-36 xl:w-48 truncate"
+                                  >
+                                    {Name}
+                                  </Typography>
+                                </div>
+                              </td>
+                              <td className={classes}>
                                 <Typography
                                   variant="small"
                                   color="blue-gray"
                                   className="font-normal w-20 md:w-24 lg:w-36 xl:w-48 truncate"
                                 >
-                                  {Tags}
+                                  {Description}
                                 </Typography>
-                              </div>
-                            </td>
-                            <td className={classes}>
-                              <div className="flex items-center gap-3">
-                                <div className="flex flex-col">
-                                  <Typography
+                              </td>
+                              <td className={classes}>
+                                <Typography
+                                  variant="small"
+                                  color="blue-gray"
+                                  className="font-normal w-20 md:w-24 lg:w-36 xl:w-48 truncate"
+                                >
+                                  {Price}
+                                </Typography>
+                              </td>
+                              <td className={classes}>
+                                <div className="flex items-center gap-3 w-20 md:w-24 lg:w-36 xl:w-48 truncate">
+                                  {/* <Typography
                                     variant="small"
                                     color="blue-gray"
                                     className="font-normal w-20 md:w-24 lg:w-36 xl:w-48 truncate"
                                   >
-                                    {Quantity}
-                                  </Typography>
+                                    {Tags}
+                                  </Typography> */}
+                                  <Chip
+                                    size="sm"
+                                    // variant="ghost"
+                                    value={Tags}
+                                    color={
+                                      Tags === "tag-1"
+                                        ? "green"
+                                        : Tags === "tag-2"
+                                        ? "amber"
+                                        : Tags === "tag-3"
+                                        ? "red"
+                                        : Tags === "tag-4"
+                                        ? "indigo"
+                                        : Tags === "tag-5"
+                                        ? "cyan"
+                                        : "orange"
+                                    }
+                                  />
                                 </div>
-                              </div>
-                            </td>
-                            <td className={classes}>
-                              <Tooltip content="Edit">
-                                <IconButton
-                                  variant="text"
-                                  onClick={() => navigate("/create-products")}
-                                >
-                                  <PencilIcon className="h-4 w-4" />
-                                </IconButton>
-                              </Tooltip>
-                              <Tooltip content="Delete">
-                                <IconButton
-                                  variant="text"
-                                  onClick={() => navigate("/create-products")}
-                                >
-                                  <TrashIcon className="h-4 w-4" />
-                                </IconButton>
-                              </Tooltip>
-                            </td>
-                          </tr>
-                        );
-                      }
+                              </td>
+                              <td className={classes}>
+                                <div className="flex items-center gap-3">
+                                  <div className="flex flex-col">
+                                    <Typography
+                                      variant="small"
+                                      color="blue-gray"
+                                      className="font-normal w-20 md:w-24 lg:w-36 xl:w-48 truncate"
+                                    >
+                                      {Quantity}
+                                    </Typography>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className={classes}>
+                                <Tooltip content="Edit">
+                                  <IconButton
+                                    variant="text"
+                                    onClick={() => navigate("/create-products")}
+                                  >
+                                    <PencilIcon className="h-4 w-4" />
+                                  </IconButton>
+                                </Tooltip>
+                                <Tooltip content="Delete">
+                                  <IconButton
+                                    variant="text"
+                                    onClick={() =>
+                                      // handleDeleteProduct(ProductId as string)
+                                      handleOpen(ProductId as string)
+                                    }
+                                  >
+                                    <TrashIcon className="h-4 w-4" />
+                                  </IconButton>
+                                </Tooltip>
+                              </td>
+                            </tr>
+                          );
+                        }
+                      )
+                    ) : (
+                      <tr>
+                        <td colSpan={6} className="text-center pt-8">
+                          <Typography
+                            variant="h6"
+                            color="red"
+                            className="font-bold leading-none opacity-70 text-center"
+                          >
+                            No Products Found...!
+                          </Typography>
+                        </td>
+                      </tr>
                     )}
                   </tbody>
                 </table>
               </CardBody>
-              <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                <Button variant="outlined" size="sm">
-                  Previous
-                </Button>
-                <div className="flex items-center gap-2">
-                  <IconButton variant="outlined" size="sm">
-                    1
-                  </IconButton>
-                  <IconButton variant="text" size="sm">
-                    2
-                  </IconButton>
-                  <IconButton variant="text" size="sm">
-                    ...
-                  </IconButton>
-                  <IconButton variant="text" size="sm">
-                    8
-                  </IconButton>
-                  <IconButton variant="text" size="sm">
-                    9
-                  </IconButton>
-                </div>
-                <Button variant="outlined" size="sm">
-                  Next
-                </Button>
-              </CardFooter>
+              {products?.length > 5 ? (
+                <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
+                  <Button variant="outlined" size="sm">
+                    Previous
+                  </Button>
+                  <div className="flex items-center gap-2">
+                    <IconButton variant="outlined" size="sm">
+                      1
+                    </IconButton>
+                    <IconButton variant="text" size="sm">
+                      2
+                    </IconButton>
+                    <IconButton variant="text" size="sm">
+                      ...
+                    </IconButton>
+                    <IconButton variant="text" size="sm">
+                      8
+                    </IconButton>
+                    <IconButton variant="text" size="sm">
+                      9
+                    </IconButton>
+                  </div>
+                  <Button variant="outlined" size="sm">
+                    Next
+                  </Button>
+                </CardFooter>
+              ) : null}
             </Card>
           </div>
         </div>
       </div>
+
+      <DialougeBox
+        isOpen={isOpen}
+        handleClose={handleClose}
+        handleConfirm={handleConfirm}
+        header={`Confirm Delete`}
+        message={`This product will be deleted permanently... Are you sure you want to delete this product? `}
+      />
     </>
   );
 };
@@ -261,6 +329,9 @@ const mapStateToProps = (state: RootState) => {
     shops: state.app.shops,
   };
 };
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  deleteProduct: (shopId: number, productId: string) =>
+    deleteProduct(shopId, productId),
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);

@@ -92,8 +92,6 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
   const handleAddProdcut = () => {
     const newErr = validateForm();
     setErrors(newErr);
-    console.log(formData);
-    console.log(newErr);
 
     if (Object.values(newErr).every((err) => err === "")) {
       addProduct({ ...formData, ShopId: Number(id) });
