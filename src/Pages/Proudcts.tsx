@@ -18,7 +18,7 @@ import BackDesktop from "../Components/BackDesktop";
 import BackMobile from "../Components/BackMobile";
 import { connect } from "react-redux";
 import { RootState } from "../Redux/store";
-import { productsType } from "../Config/types";
+import { productsType, shopsType } from "../Config/types";
 
 const TABLE_HEAD = [
   "Name",
@@ -31,11 +31,13 @@ const TABLE_HEAD = [
 
 interface IProductsProps {
   allProducts: any;
+  shops: shopsType[];
 }
 
 const Products = (props: IProductsProps) => {
-  const { allProducts } = props;
+  const { allProducts, shops } = props;
   const { id } = useParams();
+  const shopDetails = shops.find((shop) => shop.ShopId === Number(id));
   const navigate = useNavigate();
 
   const prodcuts: productsType[] = allProducts[Number(id)];
@@ -62,7 +64,7 @@ const Products = (props: IProductsProps) => {
                       Products
                     </Typography>
                     <Typography variant="h5" color="indigo">
-                      {id}
+                      {shopDetails?.Name}
                     </Typography>
                   </div>
                   <div className="pt-5 hidden md:block">
@@ -70,7 +72,7 @@ const Products = (props: IProductsProps) => {
                       Products
                     </Typography>
                     <Typography variant="h5" color="indigo">
-                      {id}
+                      {shopDetails?.Name}
                     </Typography>
                   </div>
                   <div className="flex w-full md:pt-5 shrink-0 gap-2 md:w-max">
@@ -256,6 +258,7 @@ const Products = (props: IProductsProps) => {
 const mapStateToProps = (state: RootState) => {
   return {
     allProducts: state.app.products,
+    shops: state.app.shops,
   };
 };
 const mapDispatchToProps = {};
