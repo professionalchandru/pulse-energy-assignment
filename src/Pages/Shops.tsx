@@ -187,7 +187,9 @@ const Shop = (props: IshopProps) => {
                                 <Tooltip content="View Products">
                                   <IconButton
                                     variant="text"
-                                    onClick={() => navigate("/products")}
+                                    onClick={() =>
+                                      navigate(`${ShopId}/products`)
+                                    }
                                   >
                                     <DocumentIcon className="h-4 w-4" />
                                   </IconButton>
@@ -255,8 +257,6 @@ const mapStateToProps = (state: RootState) => {
     shops: state.app.shops,
   };
 };
-const mapDispatchToProps = {
-  // createShop: (shopDetails: createShopTypes) => createShop(shopDetails),
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Shop);
