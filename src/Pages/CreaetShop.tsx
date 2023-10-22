@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Card,
   CardHeader,
@@ -56,6 +57,9 @@ const CreateShop = (props: IcreateShopProps) => {
       Longitude: "",
     };
 
+    const lat = parseFloat(formData.Latitude);
+    const lon = parseFloat(formData.Longitude);
+
     if (!formData.Name || formData.Name.length < 3) {
       errors.Name = "Enter Valid Name";
     }
@@ -68,12 +72,12 @@ const CreateShop = (props: IcreateShopProps) => {
       errors.Address = "Enter Valid Address";
     }
 
-    if (!formData.Latitude || formData.Latitude.length < 3) {
-      errors.Latitude = "Enter Valid Latitude";
+    if (!formData.Latitude || isNaN(lat) || lat < -90 || lat > 90) {
+      errors.Latitude = "Latitude must be between -90 and 90 degrees";
     }
 
-    if (!formData.Longitude || formData.Longitude.length < 3) {
-      errors.Longitude = "Enter Valid Longitude";
+    if (!formData.Longitude || isNaN(lon) || lon < -180 || lon > 180) {
+      errors.Longitude = "Longitude must be between -180 and 180 degrees";
     }
     return errors;
   };
@@ -116,6 +120,18 @@ const CreateShop = (props: IcreateShopProps) => {
     }));
   };
 
+  const getCurrentPosition = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position: any) => {
+        setFormData((state) => ({
+          ...state,
+          Latitude: position.coords.latitude,
+          Longitude: position.coords.longitude,
+        }));
+      });
+    }
+  };
+
   return (
     <div className="relative h-screen flex items-center justify-center bg-antiquwhite">
       <BackDesktop />
@@ -155,6 +171,16 @@ const CreateShop = (props: IcreateShopProps) => {
             label="Address"
             size="lg"
           />
+
+          <Typography
+            className="cursor-pointer underline"
+            variant="small"
+            color="indigo"
+            onClick={getCurrentPosition}
+          >
+            Get Current Position?
+          </Typography>
+
           <Input
             value={formData.Latitude}
             name="Latitude"

@@ -22,7 +22,6 @@ export const initApp = () => (dispatch: Idispatch) => {
     const parsedProducts = JSON.parse(products as string);
 
     if (JSON.parse(oldUsers as string)) {
-      console.log('oldUsers', oldUsers)
       dispatch({ type: 'signupUser', payload: JSON.parse(oldUsers as string) })
     }
 
