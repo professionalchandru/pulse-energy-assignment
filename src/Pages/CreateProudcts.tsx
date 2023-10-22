@@ -61,15 +61,40 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
     Quantity: "",
   });
 
+  const [initialFormData, setInitialFormData] = useState<productsErrorType>({
+    Name: "",
+    Description: "",
+    Price: "",
+    Tags: "",
+    Quantity: "",
+  });
+
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [isUpdateDisabled, setIsUpdateDisabled] = useState<boolean>(true);
 
   useEffect(() => {
     if (Object.fromEntries(searchParams).isEdit) {
       const states: any = location.state;
       setFormData(states.productDetails);
+      setInitialFormData(states.productDetails);
       setIsEditMode(true);
     }
   }, [location, searchParams]);
+
+  useEffect(() => {
+    checkForInputChange();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData]);
+
+  const checkForInputChange = () => {
+    if (isEditMode) {
+      if (JSON.stringify(formData) !== JSON.stringify(initialFormData)) {
+        setIsUpdateDisabled(false);
+      } else {
+        setIsUpdateDisabled(true);
+      }
+    }
+  };
 
   const validateForm = () => {
     const errors = {
@@ -112,6 +137,13 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
         toast.success("Product Created Successfully");
       } else {
         editProduct({ ...formData, ShopId: Number(id) });
+        setInitialFormData({
+          Name: "",
+          Description: "",
+          Price: "",
+          Tags: "",
+          Quantity: "",
+        });
         toast.success("Product Updated Successfully");
       }
       setFormData({
@@ -223,7 +255,12 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
           />
         </CardBody>
         <CardFooter className="pt-0">
-          <Button variant="gradient" fullWidth onClick={handleAddProdcut}>
+          <Button
+            variant="gradient"
+            fullWidth
+            onClick={handleAddProdcut}
+            disabled={isEditMode && isUpdateDisabled}
+          >
             {isEditMode ? "Update Product" : "Create Product"}
           </Button>
           <Typography variant="small" className="mt-6 flex justify-center">
