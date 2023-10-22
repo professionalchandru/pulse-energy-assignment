@@ -1,17 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useNavigate, useParams } from "react-router-dom";
 
-import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import {
   Card,
   CardHeader,
   Typography,
-  Button,
   CardBody,
   IconButton,
   Tooltip,
-  Input,
   Chip,
 } from "@material-tailwind/react";
 import BackDesktop from "../Components/BackDesktop";
@@ -23,6 +20,7 @@ import { deleteProduct } from "../Redux/Actions/AppActions";
 import { useEffect, useState } from "react";
 import DialougeBox from "../Components/DialougeBox";
 import Pagination from "../Components/Pagination";
+import SearchBar from "../Components/SearchBar";
 
 const TABLE_HEAD = [
   "Name",
@@ -158,27 +156,14 @@ const Products = (props: IProductsProps) => {
                       {shopDetails?.Name}
                     </Typography>
                   </div>
-                  <div className="flex w-full md:pt-5 shrink-0 gap-2 md:w-max">
-                    <div className="w-52 md:w-72">
-                      <Input
-                        crossOrigin={undefined}
-                        label="Search"
-                        icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                        name="search"
-                        value={search}
-                        onChange={handleSearch}
-                      />
-                    </div>
-                    <Button
-                      className="flex items-center gap-2"
-                      size="sm"
-                      color="indigo"
-                      onClick={() => navigate(`/shops/${id}/create-products`)}
-                    >
-                      <PlusIcon strokeWidth={2} className="h-4 w-4" />
-                      Product
-                    </Button>
-                  </div>
+                  <SearchBar
+                    buttonText="Product"
+                    searchValue={search}
+                    handleSearch={handleSearch}
+                    handleAddButtonClick={() =>
+                      navigate(`/shops/${id}/create-products`)
+                    }
+                  />
                 </div>
               </CardHeader>
               <CardBody className="overflow-auto px-0">
