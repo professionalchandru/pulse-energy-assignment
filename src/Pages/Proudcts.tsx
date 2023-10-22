@@ -12,7 +12,6 @@ import {
   IconButton,
   Tooltip,
   Input,
-  CardFooter,
   Chip,
 } from "@material-tailwind/react";
 import BackDesktop from "../Components/BackDesktop";
@@ -23,6 +22,7 @@ import { productsType, shopsType } from "../Config/types";
 import { deleteProduct } from "../Redux/Actions/AppActions";
 import { useEffect, useState } from "react";
 import DialougeBox from "../Components/DialougeBox";
+import Pagination from "../Components/Pagination";
 
 const TABLE_HEAD = [
   "Name",
@@ -47,6 +47,16 @@ const Products = (props: IProductsProps) => {
   const [products, setProducts] = useState<productsType[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentProductId, setCurrentProductId] = useState<string>("");
+
+  const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const currentItem = products.slice(
+    (currentPage - 1) * itemsPerPage,
+    indexOfLastItem
+  );
+  const totalPages = Math.ceil(products.length / itemsPerPage);
 
   useEffect(() => {
     setProducts(allProducts[Number(id)]);
@@ -83,6 +93,10 @@ const Products = (props: IProductsProps) => {
         ),
       },
     });
+  };
+
+  const handlePage = (page: number) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -159,8 +173,8 @@ const Products = (props: IProductsProps) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {products ? (
-                      products?.map(
+                    {currentItem ? (
+                      currentItem?.map(
                         (
                           {
                             ProductId,
@@ -172,7 +186,7 @@ const Products = (props: IProductsProps) => {
                           },
                           index
                         ) => {
-                          const isLast = index === products.length - 1;
+                          const isLast = index === currentItem.length - 1;
                           const classes = isLast
                             ? "p-4"
                             : "p-4 border-b border-blue-gray-50";
@@ -292,32 +306,12 @@ const Products = (props: IProductsProps) => {
                   </tbody>
                 </table>
               </CardBody>
-              {products?.length > 5 ? (
-                <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                  <Button variant="outlined" size="sm">
-                    Previous
-                  </Button>
-                  <div className="flex items-center gap-2">
-                    <IconButton variant="outlined" size="sm">
-                      1
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                      2
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                      ...
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                      8
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                      9
-                    </IconButton>
-                  </div>
-                  <Button variant="outlined" size="sm">
-                    Next
-                  </Button>
-                </CardFooter>
+              {totalPages > 1 ? (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  handlePage={handlePage}
+                />
               ) : null}
             </Card>
           </div>
