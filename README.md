@@ -22,3 +22,15 @@ Requirement of the app : https://docs.google.com/document/d/1-FNIQ4HUsMFqIK0tKtw
 2. Open terminal, then use `npm install`
 3. Then, `npm run dev` to run the app
 4. To build: `npm run build`
+
+### Screen Shots:
+
+![Sign In](./Screenshots/image.png)
+![Sign Up](./Screenshots/image-1.png)
+![Dashboard](./Screenshots/image-2.png)
+![Create Shop](./Screenshots/image-3.png)
+![Shops](./Screenshots/image-4.png)
+![Create Product](./Screenshots/image-5.png)
+![Products](./Screenshots/image-6.png)
+![Edit Product](./Screenshots/image-7.png)
+![Delete Product](./Screenshots/image-8.png)
