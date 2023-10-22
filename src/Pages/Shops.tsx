@@ -22,7 +22,7 @@ import { RootState } from "../Redux/store";
 import { connect } from "react-redux";
 import { shopsType } from "../Config/types";
 import Pagination from "../Components/Pagination";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const TABLE_HEAD = [
   "Name",
@@ -40,19 +40,44 @@ interface IshopProps {
 const Shop = (props: IshopProps) => {
   const { shops } = props;
   const navigate = useNavigate();
+  const [search, setSearch] = useState<string>("");
+  const [shopsList, setShopsList] = useState<shopsType[]>(shops);
 
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const indexOfLastItem = currentPage * itemsPerPage;
-  const currentItem = shops.slice(
+  const currentItem = shopsList.slice(
     (currentPage - 1) * itemsPerPage,
     indexOfLastItem
   );
-  const totalPages = Math.ceil(shops.length / itemsPerPage);
+  const totalPages = Math.ceil(shopsList.length / itemsPerPage);
 
   const handlePage = (page: number) => {
     setCurrentPage(page);
+  };
+
+  useEffect(() => {
+    if (search) {
+      const searchedResults = shops.filter((item: shopsType) =>
+        item.Name.toLowerCase().includes(search.toLowerCase())
+      );
+
+      if (searchedResults.length) {
+        setCurrentPage(1);
+        setShopsList(searchedResults);
+      } else {
+        setShopsList([]);
+      }
+    } else {
+      setShopsList(shops);
+      setCurrentPage(1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
   };
 
   return (
@@ -87,6 +112,9 @@ const Shop = (props: IshopProps) => {
                       <Input
                         crossOrigin={undefined}
                         label="Search"
+                        name="search"
+                        value={search}
+                        onChange={handleSearch}
                         icon={<MagnifyingGlassIcon className="h-5 w-5" />}
                       />
                     </div>

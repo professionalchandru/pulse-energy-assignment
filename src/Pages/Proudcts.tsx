@@ -47,6 +47,7 @@ const Products = (props: IProductsProps) => {
   const [products, setProducts] = useState<productsType[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentProductId, setCurrentProductId] = useState<string>("");
+  const [search, setSearch] = useState("");
 
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -63,11 +64,32 @@ const Products = (props: IProductsProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allProducts[Number(id)]]);
 
+  useEffect(() => {
+    if (search) {
+      const searchedResults = allProducts[Number(id)].filter(
+        (item: productsType) =>
+          item.Name.toLowerCase().includes(search.toLowerCase())
+      );
+
+      if (searchedResults.length) {
+        setCurrentPage(1);
+        setProducts(searchedResults);
+      } else {
+        setProducts([]);
+      }
+    } else {
+      setProducts(allProducts[Number(id)]);
+      setCurrentPage(1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
+
   const handleDeleteProduct = (productId: string) => {
     deleteProduct(Number(id), productId);
     setIsOpen(false);
     setCurrentProductId("");
     navigate(`/shops/${id}/products`);
+    setSearch("");
   };
 
   const handleOpen = (productId: string) => {
@@ -97,6 +119,10 @@ const Products = (props: IProductsProps) => {
 
   const handlePage = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
   };
 
   return (
@@ -138,6 +164,9 @@ const Products = (props: IProductsProps) => {
                         crossOrigin={undefined}
                         label="Search"
                         icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+                        name="search"
+                        value={search}
+                        onChange={handleSearch}
                       />
                     </div>
                     <Button
@@ -173,7 +202,7 @@ const Products = (props: IProductsProps) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {currentItem ? (
+                    {currentItem.length ? (
                       currentItem?.map(
                         (
                           {
