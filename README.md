@@ -3,10 +3,8 @@
 Requirement of the app : https://docs.google.com/document/d/1-FNIQ4HUsMFqIK0tKtwICN1M-5kAX5JyD2jOTWEaZP8/edit
 
 ## About the app
-
-    This app is build for the interview assignment from the Pulse Energy company. All the requirements can be found in the above link
-
-    Hosted app link: https://pulse-energy.netlify.app
+This app is build for the interview assignment from the Pulse Energy company. All the requirements can be found in the above link
+Hosted app link: https://pulse-energy.netlify.app
 
 ### Tech Stack
 
