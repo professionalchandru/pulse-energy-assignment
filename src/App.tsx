@@ -19,12 +19,14 @@ import {
 } from "react-router-dom";
 import ShopLayout from "./Layouts/ShopLayout";
 import { NavbarSimple } from "./Components/Navbars";
+import { logout } from "./Redux/Actions/AppActions";
 interface Iprops {
   currentUser: currentUserType;
+  logout: () => void;
 }
 
 const App = (props: Iprops) => {
-  const { currentUser } = props;
+  const { currentUser, logout } = props;
   UseInitApp();
 
   return (
@@ -33,7 +35,9 @@ const App = (props: Iprops) => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route element={<ProtectedRoutes user={currentUser} />}>
+          <Route
+            element={<ProtectedRoutes user={currentUser} logout={logout} />}
+          >
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="shops" element={<ShopLayout />}>
               <Route index element={<Shop />} />
@@ -54,7 +58,9 @@ const mapStateToProps = (state: RootState) => {
     currentUser: state.app.currentUser,
   };
 };
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  logout: () => logout(),
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
 
@@ -62,10 +68,11 @@ interface ProtectedRoutesProps {
   user: currentUserType;
   redirectPath?: string;
   children?: React.ReactNode;
+  logout: () => void;
 }
 
 const ProtectedRoutes = (props: ProtectedRoutesProps) => {
-  const { user, redirectPath = "/", children } = props;
+  const { user, redirectPath = "/", children, logout } = props;
 
   if (!user.email && !user.phone) {
     return <Navigate to={redirectPath} replace />;
@@ -76,7 +83,7 @@ const ProtectedRoutes = (props: ProtectedRoutesProps) => {
   ) : (
     <>
       <div className="bg-antiquwhite">
-        <NavbarSimple user={user} />
+        <NavbarSimple user={user} logout={logout} />
       </div>
       <Outlet />
     </>

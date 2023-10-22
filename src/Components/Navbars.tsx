@@ -10,8 +10,12 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 
-function NavList({ user, setOpenNav }: any) {
+function NavList({ user, setOpenNav, logout }: any) {
   const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    logout();
+  };
 
   return (
     <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -48,7 +52,12 @@ function NavList({ user, setOpenNav }: any) {
         Hi {user.name}
       </Typography>
       <div>
-        <Button size="sm" variant="gradient" color="deep-orange">
+        <Button
+          size="sm"
+          variant="gradient"
+          color="deep-orange"
+          onClick={handleLogOut}
+        >
           Logout
         </Button>
       </div>
@@ -56,7 +65,7 @@ function NavList({ user, setOpenNav }: any) {
   );
 }
 
-export function NavbarSimple({ user }: any) {
+export function NavbarSimple({ user, logout }: any) {
   const [openNav, setOpenNav] = React.useState(false);
 
   const handleWindowResize = () =>
@@ -82,7 +91,7 @@ export function NavbarSimple({ user }: any) {
           Inventory Managment
         </Typography>
         <div className="hidden lg:block">
-          <NavList user={user} setOpenNav={setOpenNav} />
+          <NavList user={user} setOpenNav={setOpenNav} logout={logout} />
         </div>
         <IconButton
           variant="text"
@@ -98,7 +107,7 @@ export function NavbarSimple({ user }: any) {
         </IconButton>
       </div>
       <Collapse open={openNav}>
-        <NavList user={user} setOpenNav={setOpenNav} />
+        <NavList user={user} setOpenNav={setOpenNav} logout={logout} />
       </Collapse>
     </Navbar>
   );

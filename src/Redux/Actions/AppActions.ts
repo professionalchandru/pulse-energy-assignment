@@ -45,6 +45,7 @@ export const initApp = () => (dispatch: Idispatch) => {
 
 export const logout = () => (dispatch: Idispatch) => {
   try {
+    localStorage.removeItem('Current-User');
     dispatch({ type: 'logout' })
   } catch (error) {
     console.log('Logout Error', error)

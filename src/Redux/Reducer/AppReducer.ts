@@ -33,7 +33,6 @@ export const AppReducer = (state = AppState, action: AppActions) => {
           phone: '',
           rememberMe: false
         },
-        shops: []
       }
     default:
       return state

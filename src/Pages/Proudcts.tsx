@@ -57,11 +57,11 @@ const Products = (props: IProductsProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const indexOfLastItem = currentPage * itemsPerPage;
-  const currentItem = products.slice(
+  const currentItem = products?.slice(
     (currentPage - 1) * itemsPerPage,
     indexOfLastItem
   );
-  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const totalPages = Math.ceil(products?.length / itemsPerPage);
 
   useEffect(() => {
     setProducts(allProducts[Number(id)]);
@@ -144,10 +144,7 @@ const Products = (props: IProductsProps) => {
                 className="rounded-none"
               >
                 <div className="relative mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
-                  <div
-                    className="md:hidden"
-                    onClick={() => navigate("/dashboard")}
-                  >
+                  <div className="md:hidden" onClick={() => navigate("/shops")}>
                     <BackMobile />
                     <Typography variant="h3" color="blue-gray">
                       Products
@@ -188,7 +185,7 @@ const Products = (props: IProductsProps) => {
                 <table className="w-full min-w-max table-auto text-left">
                   <TableHead TABLE_HEAD={TABLE_HEAD} />
                   <tbody>
-                    {currentItem.length ? (
+                    {currentItem?.length ? (
                       currentItem?.map(
                         (
                           {
@@ -201,7 +198,7 @@ const Products = (props: IProductsProps) => {
                           },
                           index
                         ) => {
-                          const isLast = index === currentItem.length - 1;
+                          const isLast = index === currentItem?.length - 1;
                           const classes = isLast
                             ? "p-4"
                             : "p-4 border-b border-blue-gray-50";

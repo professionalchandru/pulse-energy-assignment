@@ -90,11 +90,12 @@ const Login = (props: IsigninProps) => {
           toast.error("Please Check UserName and Password");
           return;
         }
-        delete userMatch?.password;
-        if (userMatch && rememberMe) {
-          signInUser({ ...userMatch, isLoggedIn: true, rememberMe });
-        } else if (userMatch && !rememberMe) {
-          signInUser({ ...userMatch, isLoggedIn: true, rememberMe: false });
+        const user = JSON.parse(JSON.stringify(userMatch));
+        delete user?.password;
+        if (user && rememberMe) {
+          signInUser({ ...user, isLoggedIn: true, rememberMe });
+        } else if (user && !rememberMe) {
+          signInUser({ ...user, isLoggedIn: true, rememberMe: false });
         }
       }
       setFormData({
