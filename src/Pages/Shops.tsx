@@ -86,7 +86,7 @@ const Shop = (props: IshopProps) => {
         <BackDesktop />
         <div className="relative h-full md:flex md:items-center md:justify-center">
           <div className="mx-auto text-center md:pt-0 ">
-            <Card className="h-full w-full">
+            <Card className="h-full w-full md:min-w-[760px] lg:min-w-[992px] xl:min-w-[1232px]">
               <CardHeader
                 floated={false}
                 shadow={false}
