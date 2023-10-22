@@ -129,6 +129,7 @@ const Signup = (props: IsignupProps) => {
           </CardHeader>
           <CardBody className="flex flex-col gap-4">
             <Input
+              color="indigo"
               value={formData.name}
               name="name"
               onChange={handleInputChange}
@@ -138,6 +139,7 @@ const Signup = (props: IsignupProps) => {
               error={!!errors.name}
             />
             <Input
+              color="indigo"
               value={formData.phone}
               name="phone"
               onChange={handleInputChange}
@@ -147,6 +149,7 @@ const Signup = (props: IsignupProps) => {
               error={!!errors.phone}
             />
             <Input
+              color="indigo"
               value={formData.email}
               name="email"
               onChange={handleInputChange}
@@ -156,6 +159,7 @@ const Signup = (props: IsignupProps) => {
               error={!!errors.email}
             />
             <Input
+              color="indigo"
               value={formData.password}
               type="password"
               name="password"

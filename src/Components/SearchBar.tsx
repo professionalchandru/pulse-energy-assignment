@@ -18,6 +18,7 @@ const SearchBar = (props: IsearchProps) => {
       <div className="flex w-full md:pt-5 shrink-0 gap-2 md:w-max">
         <div className="w-52 md:w-72">
           <Input
+            color="indigo"
             crossOrigin={undefined}
             label="Search"
             name="search"

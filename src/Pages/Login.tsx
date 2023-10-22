@@ -136,6 +136,7 @@ const Login = (props: IsigninProps) => {
         </CardHeader>
         <CardBody className="flex flex-col gap-4">
           <Input
+            color="indigo"
             value={formData.userName}
             name="userName"
             onChange={handleInputChange}
@@ -145,6 +146,7 @@ const Login = (props: IsigninProps) => {
             crossOrigin={undefined}
           />
           <Input
+            color="indigo"
             type="password"
             value={formData.password}
             name="password"

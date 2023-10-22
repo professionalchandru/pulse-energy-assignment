@@ -147,6 +147,7 @@ const CreateShop = (props: IcreateShopProps) => {
         </CardHeader>
         <CardBody className="flex flex-col gap-4">
           <Input
+            color="indigo"
             value={formData.Name}
             name="Name"
             onChange={handleInputChange}
@@ -156,6 +157,7 @@ const CreateShop = (props: IcreateShopProps) => {
             crossOrigin={undefined}
           />
           <Textarea
+            color="indigo"
             value={formData.About}
             name="About"
             onChange={handleInputChange}
@@ -164,6 +166,7 @@ const CreateShop = (props: IcreateShopProps) => {
             size="lg"
           />
           <Textarea
+            color="indigo"
             value={formData.Address}
             name="Address"
             onChange={handleInputChange}
@@ -182,6 +185,7 @@ const CreateShop = (props: IcreateShopProps) => {
           </Typography>
 
           <Input
+            color="indigo"
             value={formData.Latitude}
             name="Latitude"
             onChange={handleInputChange}
@@ -191,6 +195,7 @@ const CreateShop = (props: IcreateShopProps) => {
             size="lg"
           />
           <Input
+            color="indigo"
             value={formData.Longitude}
             name="Longitude"
             onChange={handleInputChange}

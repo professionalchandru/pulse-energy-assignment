@@ -204,6 +204,7 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
         </CardHeader>
         <CardBody className="flex flex-col gap-4">
           <Input
+            color="indigo"
             value={formData.Name}
             name="Name"
             onChange={handleInputChange}
@@ -213,6 +214,7 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
             crossOrigin={undefined}
           />
           <Textarea
+            color="indigo"
             value={formData.Description}
             name="Description"
             onChange={handleInputChange}
@@ -221,6 +223,7 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
             size="lg"
           />
           <Input
+            color="indigo"
             type="number"
             value={formData.Price}
             name="Price"
@@ -231,6 +234,7 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
             size="lg"
           />
           <Select
+            color="indigo"
             label="Tags"
             value={formData.Tags}
             name="Tags"
@@ -244,13 +248,14 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
             <Option value="tag-5">Tag 5</Option>
           </Select>
           <Input
+            color="indigo"
             type="number"
             value={formData.Quantity}
             name="Quantity"
             onChange={handleInputChange}
             error={!!errors.Quantity}
             crossOrigin={undefined}
-            label="Quantity Available"
+            label="Stock / Quantity Available"
             size="lg"
           />
         </CardBody>

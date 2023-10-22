@@ -30,7 +30,7 @@ const TABLE_HEAD = [
   "Description",
   "Price",
   "Tags",
-  "Quantity",
+  "Available Stock",
   "Actions",
 ];
 
