@@ -110,7 +110,7 @@ const Signup = (props: IsignupProps) => {
     const { name, value } = e.target;
     setFormData((state) => ({
       ...state,
-      [name]: value,
+      [name]: name === "email" ? value.toLowerCase() : value,
     }));
   };
 

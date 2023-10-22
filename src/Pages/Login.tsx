@@ -83,7 +83,7 @@ const Login = (props: IsigninProps) => {
         const userMatch = users?.find(
           (user: signUpFormDataType) =>
             (user.phone === formData.userName ||
-              user.email === formData.userName) &&
+              user.email.toLowerCase() === formData.userName.toLowerCase()) &&
             user.password === formData.password
         );
         if (!userMatch) {
@@ -119,7 +119,7 @@ const Login = (props: IsigninProps) => {
     const { name, value } = e.target;
     setFormData((state) => ({
       ...state,
-      [name]: value,
+      [name]: name === "userName" ? value.toLowerCase() : value,
     }));
   };
 
