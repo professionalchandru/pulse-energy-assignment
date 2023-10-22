@@ -33,7 +33,7 @@ const App = (props: Iprops) => {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route index element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route
             element={<ProtectedRoutes user={currentUser} logout={logout} />}
