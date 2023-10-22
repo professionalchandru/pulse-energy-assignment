@@ -18,6 +18,7 @@ import {
   Routes,
 } from "react-router-dom";
 import ShopLayout from "./Layouts/ShopLayout";
+import { NavbarSimple } from "./Components/Navbars";
 
 interface Iprops {
   currentUser: currentUserType;
@@ -30,6 +31,9 @@ const App = (props: Iprops) => {
   return (
     <>
       <BrowserRouter>
+        <div className="bg-antiquwhite">
+          <NavbarSimple user={currentUser} />
+        </div>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="signup" element={<Signup />} />

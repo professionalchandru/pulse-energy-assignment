@@ -7,8 +7,8 @@ const NotFound = () => {
 
   return (
     <div
-      className="relative h-screen text-center flex flex-col items-center justify-center"
-      style={{ background: "#F9FAFC" }}
+      className="relative text-center flex flex-col items-center justify-center"
+      style={{ background: "#F9FAFC", height: `calc(100vh - 64px)` }}
     >
       <img
         src={NotFoundImg}

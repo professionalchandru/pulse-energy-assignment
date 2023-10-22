@@ -10,7 +10,6 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
-import BackDesktop from "../Components/BackDesktop";
 import { connect } from "react-redux";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -133,9 +132,12 @@ const CreateShop = (props: IcreateShopProps) => {
   };
 
   return (
-    <div className="relative h-screen flex items-center justify-center bg-antiquwhite">
-      <BackDesktop />
-      <Card className="w-96">
+    <div
+      className="relative h-screen flex items-center justify-center bg-antiquwhite"
+      // style={{ height: `calc(100vh - 64px)` }}
+    >
+      {/* <BackDesktop /> */}
+      <Card className="w-96 mt-24 md:mt-0">
         <CardHeader
           variant="gradient"
           color="gray"

@@ -9,8 +9,6 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
-import BackDesktop from "../Components/BackDesktop";
-import BackMobile from "../Components/BackMobile";
 import { RootState } from "../Redux/store";
 import { connect } from "react-redux";
 import { shopsType } from "../Config/types";
@@ -79,8 +77,11 @@ const Shop = (props: IshopProps) => {
 
   return (
     <>
-      <div className="relative w-full h-screen bg-antiquwhite">
-        <BackDesktop />
+      <div
+        className="relative h-screen w-full bg-antiquwhite"
+        // style={{ height: `calc(100vh - 64px)` }}
+      >
+        {/* <BackDesktop /> */}
         <div className="relative h-full md:flex md:items-center md:justify-center">
           <div className="mx-auto text-center md:pt-0 ">
             <Card className="h-full w-full md:min-w-[760px] lg:min-w-[992px] xl:min-w-[1232px]">
@@ -90,16 +91,7 @@ const Shop = (props: IshopProps) => {
                 className="rounded-none"
               >
                 <div className="relative mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
-                  <div
-                    className="md:hidden"
-                    onClick={() => navigate("/dashboard")}
-                  >
-                    <BackMobile />
-                    <Typography variant="h3" color="blue-gray">
-                      Shops
-                    </Typography>
-                  </div>
-                  <div className="pt-5 hidden md:block">
+                  <div className="pt-5 ">
                     <Typography variant="h3" color="blue-gray">
                       Shops
                     </Typography>

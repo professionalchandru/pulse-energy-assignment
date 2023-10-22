@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useNavigate, useParams } from "react-router-dom";
 
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import {
+  ArrowSmallLeftIcon,
+  PencilIcon,
+  TrashIcon,
+} from "@heroicons/react/24/solid";
 import {
   Card,
   CardHeader,
@@ -11,7 +15,6 @@ import {
   Tooltip,
   Chip,
 } from "@material-tailwind/react";
-import BackDesktop from "../Components/BackDesktop";
 import BackMobile from "../Components/BackMobile";
 import { connect } from "react-redux";
 import { RootState } from "../Redux/store";
@@ -128,8 +131,10 @@ const Products = (props: IProductsProps) => {
 
   return (
     <>
-      <div className="relative h-screen bg-antiquwhite">
-        <BackDesktop />
+      <div
+        className="relative h-screen  bg-antiquwhite"
+        // style={{ height: `calc(100vh - 64px)` }}
+      >
         <div className="relative h-full md:flex md:items-center md:justify-center">
           <div className="mx-auto text-center md:pt-0 ">
             <Card className="h-full w-full md:min-w-[760px] lg:min-w-[992px] xl:min-w-[1232px]">
@@ -151,13 +156,23 @@ const Products = (props: IProductsProps) => {
                       {shopDetails?.Name}
                     </Typography>
                   </div>
-                  <div className="pt-5 hidden md:block">
-                    <Typography variant="h3" color="blue-gray">
-                      Products
-                    </Typography>
-                    <Typography variant="h5" color="indigo">
-                      {shopDetails?.Name}
-                    </Typography>
+                  <div className="pt-5 hidden md:flex flex-row gap-5">
+                    <Tooltip content="Shops">
+                      <IconButton
+                        variant="text"
+                        onClick={() => navigate("/shops")}
+                      >
+                        <ArrowSmallLeftIcon className="h-4 w-4 text-black font-bold" />
+                      </IconButton>
+                    </Tooltip>
+                    <div>
+                      <Typography variant="h3" color="blue-gray">
+                        Products
+                      </Typography>
+                      <Typography variant="h5" color="indigo">
+                        {shopDetails?.Name}
+                      </Typography>
+                    </div>
                   </div>
                   <SearchBar
                     buttonText="Product"

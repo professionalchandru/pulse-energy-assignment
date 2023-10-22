@@ -18,7 +18,10 @@ const Dashboard = (props: DashboardProps) => {
 
   return (
     <>
-      <div className="relative h-screen bg-antiquwhite flex items-center justify-center">
+      <div
+        className="relative h-screen bg-antiquwhite flex items-center justify-center"
+        // style={{ height: `calc(100vh - 64px)` }}
+      >
         <Card className="mt-6 w-96">
           <CardBody>
             <Typography

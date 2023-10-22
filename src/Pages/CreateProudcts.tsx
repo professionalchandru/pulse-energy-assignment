@@ -17,7 +17,6 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import BackDesktop from "../Components/BackDesktop";
 import { productsType } from "../Config/types";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -190,8 +189,11 @@ const CreateProdcuts = (props: IcreateProductsProps) => {
   };
 
   return (
-    <div className="relative h-screen flex items-center justify-center bg-antiquwhite">
-      <BackDesktop />
+    <div
+      className="relative h-screen flex items-center justify-center bg-antiquwhite"
+      // style={{ height: `calc(100vh - 64px)` }}
+    >
+      {/* <BackDesktop /> */}
       <Card className="w-96">
         <CardHeader
           variant="gradient"
