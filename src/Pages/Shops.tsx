@@ -15,13 +15,14 @@ import {
   IconButton,
   Tooltip,
   Input,
-  CardFooter,
 } from "@material-tailwind/react";
 import BackDesktop from "../Components/BackDesktop";
 import BackMobile from "../Components/BackMobile";
 import { RootState } from "../Redux/store";
 import { connect } from "react-redux";
 import { shopsType } from "../Config/types";
+import Pagination from "../Components/Pagination";
+import { useState } from "react";
 
 const TABLE_HEAD = [
   "Name",
@@ -39,6 +40,21 @@ interface IshopProps {
 const Shop = (props: IshopProps) => {
   const { shops } = props;
   const navigate = useNavigate();
+
+  const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const currentItem = shops.slice(
+    (currentPage - 1) * itemsPerPage,
+    indexOfLastItem
+  );
+  const totalPages = Math.ceil(shops.length / itemsPerPage);
+
+  const handlePage = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <>
       <div className="relative w-full h-screen bg-antiquwhite">
@@ -107,13 +123,13 @@ const Shop = (props: IshopProps) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {shops.length ? (
-                      shops.map(
+                    {currentItem.length ? (
+                      currentItem.map(
                         (
                           { ShopId, Name, About, Address, Latitude, Longitude },
                           index
                         ) => {
-                          const isLast = index === shops.length - 1;
+                          const isLast = index === currentItem.length - 1;
                           const classes = isLast
                             ? "p-4"
                             : "p-4 border-b border-blue-gray-50";
@@ -215,32 +231,12 @@ const Shop = (props: IshopProps) => {
                   </tbody>
                 </table>
               </CardBody>
-              {shops?.length > 5 ? (
-                <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                  <Button variant="outlined" size="sm">
-                    Previous
-                  </Button>
-                  <div className="flex items-center gap-2">
-                    <IconButton variant="outlined" size="sm">
-                      1
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                      2
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                      ...
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                      8
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                      9
-                    </IconButton>
-                  </div>
-                  <Button variant="outlined" size="sm">
-                    Next
-                  </Button>
-                </CardFooter>
+              {totalPages > 1 ? (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  handlePage={handlePage}
+                />
               ) : null}
             </Card>
           </div>
