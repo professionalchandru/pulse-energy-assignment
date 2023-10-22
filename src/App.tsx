@@ -29,26 +29,6 @@ const App = (props: Iprops) => {
 
   return (
     <>
-      {/* <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="signup" element={<Signup />} />
-          <Route element={<ProtectedRoutes user={currentUser} />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="shops" element={<Shop />}></Route>
-            <Route path="create-shop" element={<CreateShop />} />
-            <Route path="create-products" element={<CreateProdcuts />} />
-            <Route path="products" element={<Products />} />
-            // <Route path=":id" element={<Login />} />
-            // <Route path=":id/create-products" element={<CreateProdcuts />} />
-            // <Route path=":id/products" element={<Products />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter> */}
-
-      {/* <RouterProvider router={router} /> */}
-
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -61,11 +41,6 @@ const App = (props: Iprops) => {
               <Route path=":id/products" element={<Products />} />
               <Route path="create-shop" element={<CreateShop />} />
             </Route>
-            {/* <Route path="create-products" element={<CreateProdcuts />} />
-            <Route path="products" element={<Products />} /> */}
-            {/* // <Route path=":id" element={<Login />} />
-            // <Route path=":id/create-products" element={<CreateProdcuts />} />
-            // <Route path=":id/products" element={<Products />} /> */}
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

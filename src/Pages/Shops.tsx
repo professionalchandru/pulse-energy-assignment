@@ -17,6 +17,9 @@ import { shopsType } from "../Config/types";
 import Pagination from "../Components/Pagination";
 import { useEffect, useState } from "react";
 import SearchBar from "../Components/SearchBar";
+import TableError from "../Components/TableError";
+import TableHead from "../Components/TableHead";
+import TableColumns from "../Components/TableColumns";
 
 const TABLE_HEAD = [
   "Name",
@@ -111,24 +114,7 @@ const Shop = (props: IshopProps) => {
               </CardHeader>
               <CardBody className="overflow-auto px-0">
                 <table className="w-full min-w-max table-auto text-left">
-                  <thead>
-                    <tr>
-                      {TABLE_HEAD.map((head) => (
-                        <th
-                          key={head}
-                          className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
-                        >
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal leading-none opacity-70"
-                          >
-                            {head}
-                          </Typography>
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
+                  <TableHead TABLE_HEAD={TABLE_HEAD} />
                   <tbody>
                     {currentItem.length ? (
                       currentItem.map(
@@ -144,57 +130,22 @@ const Shop = (props: IshopProps) => {
                           return (
                             <tr key={ShopId}>
                               <td className={classes}>
-                                <div className="flex items-center gap-3">
-                                  <Typography
-                                    variant="small"
-                                    color="blue-gray"
-                                    className="font-bold w-20 md:w-24 lg:w-36 xl:w-48 truncate"
-                                  >
-                                    {Name}
-                                  </Typography>
-                                </div>
+                                <TableColumns
+                                  text={Name}
+                                  fontWeight="font-bold"
+                                />
                               </td>
                               <td className={classes}>
-                                <Typography
-                                  variant="small"
-                                  color="blue-gray"
-                                  className="font-normal w-20 md:w-24 lg:w-36 xl:w-48 truncate"
-                                >
-                                  {About}
-                                </Typography>
+                                <TableColumns text={About} />
                               </td>
                               <td className={classes}>
-                                <Typography
-                                  variant="small"
-                                  color="blue-gray"
-                                  className="font-normal w-20 md:w-24 lg:w-36 xl:w-48 truncate"
-                                >
-                                  {Address}
-                                </Typography>
+                                <TableColumns text={Address} />
                               </td>
                               <td className={classes}>
-                                <div className="flex items-center gap-3">
-                                  <Typography
-                                    variant="small"
-                                    color="blue-gray"
-                                    className="font-normal w-20 md:w-24 lg:w-36 xl:w-48 truncate"
-                                  >
-                                    {Latitude}
-                                  </Typography>
-                                </div>
+                                <TableColumns text={Latitude} />
                               </td>
                               <td className={classes}>
-                                <div className="flex items-center gap-3">
-                                  <div className="flex flex-col">
-                                    <Typography
-                                      variant="small"
-                                      color="blue-gray"
-                                      className="font-normal w-20 md:w-24 lg:w-36 xl:w-48 truncate"
-                                    >
-                                      {Longitude}
-                                    </Typography>
-                                  </div>
-                                </div>
+                                <TableColumns text={Longitude} />
                               </td>
                               <td className={classes}>
                                 <Tooltip content="Add Products">
@@ -223,17 +174,7 @@ const Shop = (props: IshopProps) => {
                         }
                       )
                     ) : (
-                      <tr>
-                        <td colSpan={6} className="text-center pt-8">
-                          <Typography
-                            variant="h6"
-                            color="red"
-                            className="font-bold leading-none opacity-70 text-center"
-                          >
-                            No Shops Found...!
-                          </Typography>
-                        </td>
-                      </tr>
+                      <TableError colSpan={6} message="No Shops Found...!" />
                     )}
                   </tbody>
                 </table>
