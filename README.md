@@ -24,7 +24,7 @@ Hosted app link: https://pulse-energy.netlify.app
 
 ### Note:
 
-1. There is a dummyproduct.txt file you can see in the folder structure. There are 100 dummy products generated. You can simply copy that JSON and paste it in side local storage with the key `Products` and value `the dummy json from txt file`.
+1. If you want 100s of products ready without manually creating, there is a dummyproduct.txt file you can see in the folder structure. There are 100 dummy products generated. You can simply copy that JSON and paste it in side local storage with the key `Products` and value `the dummy json from txt file`.
 
 ### Screen Shots:
 
