@@ -215,7 +215,10 @@ const Products = (props: IProductsProps) => {
                                 <TableColumns text={Description} />
                               </td>
                               <td className={classes}>
-                                <TableColumns text={Price} />
+                                <TableColumns
+                                  text={`₹ ${Price}`}
+                                  fontWeight="font-bold"
+                                />
                               </td>
                               <td className={classes}>
                                 <div className="flex items-center gap-3 w-20 md:w-24 lg:w-36 xl:w-48 truncate">
@@ -239,7 +242,10 @@ const Products = (props: IProductsProps) => {
                                 </div>
                               </td>
                               <td className={classes}>
-                                <TableColumns text={Quantity} />
+                                <TableColumns
+                                  text={Quantity}
+                                  fontWeight="font-bold"
+                                />
                               </td>
                               <td className={classes}>
                                 <Tooltip content="Edit">
